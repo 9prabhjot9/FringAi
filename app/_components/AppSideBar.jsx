@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sidebar"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { SignUpButton, UserButton } from "@clerk/nextjs"
 
 // Menu items.
 const items = [
@@ -33,7 +34,7 @@ const items = [
   },
   {
     title: "Sign In",
-    url: "# ",
+    url: "/signin",
     icon: LogIn,
   },
 ]
@@ -62,13 +63,18 @@ export function AppSidebar() {
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
-            <Button className={'text-black ml-5 w-40 mt-5 rounded-full bg-[#438c86]'}>Sign In</Button>
+
+            <SignUpButton mode="modal"> 
+            <Button className={'text-black ml-5 w-40 mt-5 rounded-full bg-[#438c86]'}>Sign Up</Button>
+            </SignUpButton>
+
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
             <div className="p-9 bg-[#dcfcf4]">
                 <h1 className="text-gray-500">Try Now</h1>
                 <p className="text-gray-400">Upgrade to premium for image upload and smarter AI</p>
+                <UserButton />
             </div>
     </Sidebar>
   )
