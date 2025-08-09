@@ -7,7 +7,7 @@ import { UserDetailContext } from '@/context/UserDetailContext'
 
 function Provider({ children }) {
   const { user } = useUser()
-  const [userDetail, setUserDetail] = useState
+  const [userDetail, setUserDetail] = useState()
 
   useEffect(() => {
     if (user?.primaryEmailAddress?.emailAddress) {

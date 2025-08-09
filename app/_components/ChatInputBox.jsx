@@ -1,21 +1,44 @@
+'use client'
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Atom, AudioLines, Cpu, Globe, Mic, Paperclip, Search } from "lucide-react";
+import { ArrowRight, Atom, AudioLines, Cpu, Globe, Mic, Paperclip, Search } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { AIModelsOption } from "@/services/Shared";
+import { useUser } from "@clerk/nextjs";
+import { supabase } from "@/services/supabase";
+import { v4 as uuidv4 } from 'uuid'
 
 
 
 
 function ChatInputBox() {
+
+        const[userSearchInput, setUserSearchInput] = useState()
+        const[searchType, setSearchType] = useState()
+        const {user} = useUser()
+        const [loading, setLoading] = useState(false)
+
+        const onSearchQuery = async() => {
+            setLoading(true)
+            const libid = uuidv4
+            const {data} = await supabase.from('Library').insert([
+                {
+                    searchInput: userSearchInput,
+                    userEmail: user?.primaryEmailAddress?.emailAddress,
+                    type: searchType,
+                    libid: libid
+                }
+            ]).select()
+            setLoading(false)
+            console.log(data[0])
+        }
+
     return (
         <div className="h-screen w-screen flex flex-col items-center justify-center">
             <Image src="/newlogo.png" alt="logo" width={150} height={100} />
@@ -24,26 +47,28 @@ function ChatInputBox() {
                 <div className="w-full border border-gray-300 p-5 rounded-2xl flex justify-between items-end">
                     <div className="text-gray-500 mb-4"></div>
 
-                    <Tabs defaultValue="account" className="w-full border-none">
-                        <TabsContent value="account">
+                    <Tabs defaultValue="Search" className="w-full border-none">
+                        <TabsContent value="Search">
                             <input
                                 type="text"
                                 placeholder="Ask Anything"
                                 className="w-full focus: outline-none rounded-md"
+                                onChange={(e) => setUserSearchInput(e.target.value)}
                             />
                         </TabsContent>
 
-                        <TabsContent value="password">
+                        <TabsContent value="Research">
                             <input
                                 type="text"
                                 placeholder="Research Anything"
                                 className="w-full rounded-md focus: outline-none"
+                                onChange={(e) => setUserSearchInput(e.target.value)}
                             />
                         </TabsContent>
 
                         <TabsList className="mt-3 flex gap-2">
-                            <TabsTrigger value="account" className={'text-[#438c86] font-semibold'}><Search/> Search</TabsTrigger>
-                            <TabsTrigger value="password" className={'text-[#438c86] font-semibold'}><Atom/> DeepResearch</TabsTrigger>
+                            <TabsTrigger value="Search" className={'text-[#438c86] font-semibold'}  onClick={()=>setSearchType('search')}><Search/> Search</TabsTrigger>
+                            <TabsTrigger value="Research" className={'text-[#438c86] font-semibold'}  onClick={()=>setSearchType('research')}><Atom/> DeepResearch</TabsTrigger>
                         </TabsList>
                     </Tabs>
                     <div className="flex text-gray-500 gap-3 items-center">
@@ -74,8 +99,11 @@ function ChatInputBox() {
                         <button className=" hover:lg hover:bg-slate-200 rounded-sm">
                         <Mic />
                         </button>
-                        <button className="bg-[#438c86] text-white p-1 rounded-sm">
-                            <AudioLines />
+                        <button 
+                         className="bg-[#438c86] text-white p-1 rounded-sm"
+                         onClick={() => {
+                            userSearchInput ? onSearchQuery() : null }}>
+                          {!userSearchInput?<AudioLines />: <ArrowRight disalbed={loading}/>}
                         </button>
                     </div>
                 </div>
