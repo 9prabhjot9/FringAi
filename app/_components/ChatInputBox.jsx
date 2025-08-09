@@ -13,6 +13,8 @@ import { AIModelsOption } from "@/services/Shared";
 import { useUser } from "@clerk/nextjs";
 import { supabase } from "@/services/supabase";
 import { v4 as uuidv4 } from 'uuid'
+import { useRouter } from "next/navigation";
+
 
 
 
@@ -23,20 +25,23 @@ function ChatInputBox() {
         const[searchType, setSearchType] = useState()
         const {user} = useUser()
         const [loading, setLoading] = useState(false)
+        const router = useRouter()
 
         const onSearchQuery = async() => {
             setLoading(true)
-            const libid = uuidv4
+            const libId = uuidv4()
             const {data} = await supabase.from('Library').insert([
                 {
                     searchInput: userSearchInput,
                     userEmail: user?.primaryEmailAddress?.emailAddress,
                     type: searchType,
-                    libid: libid
+                    libId: libId
                 }
             ]).select()
             setLoading(false)
-            console.log(data[0])
+
+            router.push('/search/' + libId)
+            console.log(data)
         }
 
     return (
@@ -103,7 +108,7 @@ function ChatInputBox() {
                          className="bg-[#438c86] text-white p-1 rounded-sm"
                          onClick={() => {
                             userSearchInput ? onSearchQuery() : null }}>
-                          {!userSearchInput?<AudioLines />: <ArrowRight disalbed={loading}/>}
+                          {!userSearchInput?<AudioLines />: <ArrowRight disabled={loading}/>}
                         </button>
                     </div>
                 </div>
