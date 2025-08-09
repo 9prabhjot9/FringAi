@@ -111,6 +111,7 @@ function ChatInputBox() {
                           {!userSearchInput?<AudioLines />: <ArrowRight disabled={loading}/>}
                         </button>
                     </div>
+                
                 </div>
             </div>
         </div>
