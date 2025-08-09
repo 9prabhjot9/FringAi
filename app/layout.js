@@ -3,6 +3,7 @@ import "./globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./_components/AppSideBar";
 import { ClerkProvider } from "@clerk/nextjs";
+import Provider from "./provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,7 +31,10 @@ export default function RootLayout({ children }) {
             <AppSidebar/> 
               <main>
                 <SidebarTrigger />
+                <Provider>
+
                 {children}
+                </Provider>
               </main>
           </SidebarProvider>
         </body>
