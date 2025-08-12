@@ -6,6 +6,9 @@ import { LucideList } from 'lucide-react';
 import AnswerDisplay from './AnswerDisplay';
 import axios from 'axios';
 import { SEARCH_RESULT } from '@/services/Shared';
+import { useParams } from 'next/navigation';
+import { supabase } from '@/services/supabase';
+
 
 const tabs = [
   { label: 'Answer', icon: LucideSparkles },
@@ -17,19 +20,45 @@ const tabs = [
 function DisplayResult({searchInputRecord}) {
     const [activeTab, setActiveTab] = useState("Answer")
     const[searchResult, setSearchResult ] = useState(SEARCH_RESULT)
+    const {libId} = useParams
 
     useEffect(() => {   
-        // searchInputRecord&&GetSearchApiResult()
-    }, [searchInputRecord])
+        GetSearchApiResult()
+    }, [])
 
-    const GetSearchApiResult = async() => {
-        const result = await axios.post('/api/google-search-api', {
-            searchInput: searchInputRecord?.searchInput,
-            searchType: searchInputRecord.type
-        })
-        console.log(result.data)
-        console.log(JSON.stringify(result.data))
-    }
+   const GetSearchApiResult = async () => {
+    const searchResp = SEARCH_RESULT;
+
+    // console.log("Full searchResp:", searchResp);
+    // console.log("Items array:", searchResp?.items);
+    // console.log("First item:", searchResp?.items?.[0]);
+
+    const formattedSearchResponse = searchResp?.items?.map((item) => ({
+        title: item?.title,
+        snippet: item?.snippet,
+        displayLink: item?.displayLink,
+        src: item?.pagemap?.cse_thumbnail?.[0]?.src 
+          || item?.pagemap?.cse_image?.[0]?.src,
+        link: item?.link
+    }));
+
+    console.log("Formatted search response:", formattedSearchResponse);
+
+
+    const { data, error } = await supabase
+    .from('Chats')
+    .insert([
+        { libId: libId,
+            searchResult: formattedSearchResponse
+        },
+    ])
+    .select()
+          console.log(data)
+
+    // setSearchResult({ items: formattedSearchResponse }); // ✅ so AnswerDisplay gets it
+};;
+
+
 
 
     return (
