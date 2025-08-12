@@ -9,8 +9,8 @@ export async function POST(req) {
   }
 
   try {
-    const apiKey = process.env.NEXT_GOOGLE_API_KEY; // Store in .env
-    const cx = process.env.NEXT_GOOGLE_CX; // Your Programmable Search Engine ID
+    const apiKey = process.env.NEXT_GOOGLE_API_KEY; 
+    const cx = process.env.NEXT_GOOGLE_CX; 
 
     const result = await axios.get("https://www.googleapis.com/customsearch/v1", {
       params: {
