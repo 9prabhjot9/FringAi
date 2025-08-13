@@ -16,7 +16,7 @@ export async function POST(req) {
       params: {
         key: apiKey,
         cx: cx,
-        q: searchInput, // Use searchInput dynamically
+        q: searchInput, 
       },
     });
 
