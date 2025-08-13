@@ -59,7 +59,7 @@ function DisplayResult({searchInputRecord}) {
         },
     ])
     .select()
-          console.log(data.id)
+          console.log(data[0].id)
           await GenerateAIResp(formattedSearchResponse, data[0].id)
 
     // setSearchResult({ items: formattedSearchResponse }); // ✅ so AnswerDisplay gets it
@@ -76,6 +76,12 @@ function DisplayResult({searchInputRecord}) {
         recordId: recordId
       })
       console.log(result.data)
+      const runId = result.data
+
+      const runResp = await axios.post('/api/get-inngest-status', {
+        runId: runId
+      })
+      console.log(runResp.data)
   }
 
 
