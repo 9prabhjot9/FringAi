@@ -9,7 +9,7 @@ export const llmModel = inngest.createFunction(
 
     const aiResp = await step.ai.infer('generate-ai-llm-model-call', {
       model: step.ai.models.gemini({
-        model: 'gemini-1.5-flash',
+        model: 'gemini-2.0-flash',
         apiKey: process.env.GEMINI_API_KEY
       }),
       body:{
@@ -47,7 +47,6 @@ export const llmModel = inngest.createFunction(
       return data;
     });
 
-    // ✅ Return so Inngest stores this in "data"
     return {
       aiText: aiResp?.candidates?.[0]?.content?.parts?.[0]?.text,
       recordId: event.data.recordId,
