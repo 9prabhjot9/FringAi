@@ -1,28 +1,21 @@
 import { inngest } from "./client";
 import {supabase} from '@/services/supabase'
 
-export const helloWorld = inngest.createFunction(
-  { id: "hello-world" },
-  { event: "test/hello.world" },
-  async ({ event, step }) => {
-    await step.sleep("wait-a-moment", "1s");
-    return { message: `Hello ${event.data.email}!` };
-  },
-);
 
 export const llmModel = inngest.createFunction(
   {id: 'llm-model'},
   {event: 'llm-model'},
   async({event, step}) =>{
+
     const aiResp = await step.ai.infer('generate-ai-llm-model-call', {
       model: step.ai.models.gemini({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         apiKey: process.env.GEMINI_API_KEY
       }),
       body:{
         contents:[
           {
-            role: 'system',
+            role: 'model',
             parts:[
               {
                 text: 'Depends on user input sources, Summarize and search about topics, Give a markdown text with proper formatting. User Input is: ' +event.data.searchInput
@@ -49,7 +42,15 @@ export const llmModel = inngest.createFunction(
         .eq('id', event.data.recordId)
         .select()
           
-        return aiResp
-    })
+     
+      if (error) throw error;
+      return data;
+    });
+
+    // ✅ Return so Inngest stores this in "data"
+    return {
+      aiText: aiResp?.candidates?.[0]?.content?.parts?.[0]?.text,
+      recordId: event.data.recordId,
+    };
   }
-)
+);

@@ -1,14 +1,14 @@
-import { Inngest } from "inngest";
+import { inngest } from "@/inngest/client";
+import { NextResponse } from "next/server";
 
 export async function POST(req){
-    const{serachInput, serachResult, recordId} = await req.json()
-
+    const{searchInput, searchResult, recordId} = await req.json()
     
-   const inngestRunId= await inngest.send({
+   const inngestRunId = await inngest.send({
         name: "llm-model",
         data: {
-            serachInput: serachInput,
-            serachResult: serachResult,
+            searchInput: searchInput,
+            searchResult: searchResult,
             recordId: recordId
         },
     });

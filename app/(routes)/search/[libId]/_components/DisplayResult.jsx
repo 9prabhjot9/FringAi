@@ -20,13 +20,19 @@ const tabs = [
 function DisplayResult({searchInputRecord}) {
     const [activeTab, setActiveTab] = useState("Answer")
     const[searchResult, setSearchResult ] = useState(SEARCH_RESULT)
-    const {libId} = useParams
+    const {libId} = useParams()
 
     useEffect(() => {   
+        // searchInputRecord&&
         GetSearchApiResult()
     }, [])
 
    const GetSearchApiResult = async () => {
+    // const result = await axios.post('/api/google-search-api', {
+    //   searchInput: searchInputRecord?.searchInput,
+    //   searchType: searchInputRecord?.type
+    // })
+    // console.log(result.data)
     const searchResp = SEARCH_RESULT;
 
     // console.log("Full searchResp:", searchResp);
@@ -53,10 +59,24 @@ function DisplayResult({searchInputRecord}) {
         },
     ])
     .select()
-          console.log(data)
+          console.log(data.id)
+          await GenerateAIResp(formattedSearchResponse, data[0].id)
 
     // setSearchResult({ items: formattedSearchResponse }); // ✅ so AnswerDisplay gets it
-};;
+}
+  const GenerateAIResp=async(formattedSearchResponse, recordId) => {
+    console.log("GenerateAIResp payload:", {
+    searchInput: searchInputRecord?.searchInput,
+    searchResult: formattedSearchResponse,
+    recordId
+});
+      const result = await axios.post('/api/llm-model', {
+        searchInput: searchInputRecord?.searchInput,
+        searchResult: formattedSearchResponse,
+        recordId: recordId
+      })
+      console.log(result.data)
+  }
 
 
 

@@ -10,9 +10,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "../../components/ui/sidebar"
 import { usePathname } from "next/navigation"
-import { Button } from "@/components/ui/button"
+import { Button } from "../../components/ui/button"
 import { SignUpButton, UserButton } from "@clerk/nextjs"
 
 // Menu items.
