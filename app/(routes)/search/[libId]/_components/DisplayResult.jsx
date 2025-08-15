@@ -23,9 +23,9 @@ function DisplayResult({searchInputRecord}) {
     const {libId} = useParams()
 
     useEffect(() => {   
-        // searchInputRecord&&
+        
         GetSearchApiResult()
-    }, [])
+    }, [searchInputRecord])
 
    const GetSearchApiResult = async () => {
     // const result = await axios.post('/api/google-search-api', {
@@ -40,36 +40,51 @@ function DisplayResult({searchInputRecord}) {
     // console.log("First item:", searchResp?.items?.[0]);
 
     const formattedSearchResponse = searchResp?.items?.map((item) => ({
-        title: item?.title,
-        snippet: item?.snippet,
-        displayLink: item?.displayLink,
+        title: item?.title ?? null,
+        snippet: item?.snippet ?? null,
+        displayLink: item?.displayLink ?? null,
         src: item?.pagemap?.cse_thumbnail?.[0]?.src 
           || item?.pagemap?.cse_image?.[0]?.src,
-        link: item?.link
+        link: item?.link ?? null
     }));
 
     console.log("Formatted search response:", formattedSearchResponse);
+    const cleanResults = formattedSearchResponse.map((obj) =>
+    Object.fromEntries(
+      Object.entries(obj).map(([k, v]) => [k, v === undefined ? null : v])
+    )
+  );
 
+console.log(cleanResults);
 
     const { data, error } = await supabase
     .from('Chats')
     .insert([
         { libId: libId,
-            searchResult: formattedSearchResponse
+          searchResult: cleanResults,
         },
     ])
     .select()
-          console.log(data[0].id)
-          await GenerateAIResp(formattedSearchResponse, data[0].id)
+        //  if (error) {
+        //   console.error("Supabase insert error:", error);
+        //   return; // stop if there's an error
+        // }
 
+        // if (!data || data.length === 0) {
+        //   console.error("No data returned from insert");
+        //   return;
+        // }
+
+console.log("Inserted row ID:", data[0].id);
+await GenerateAIResp(formattedSearchResponse, data[0].id);
     // setSearchResult({ items: formattedSearchResponse }); // ✅ so AnswerDisplay gets it
 }
   const GenerateAIResp=async(formattedSearchResponse, recordId) => {
-    console.log("GenerateAIResp payload:", {
-    searchInput: searchInputRecord?.searchInput,
-    searchResult: formattedSearchResponse,
-    recordId
-});
+//     console.log("GenerateAIResp payload:", {
+//     searchInput: searchInputRecord?.searchInput,
+//     searchResult: formattedSearchResponse,
+//     recordId
+// });
       const result = await axios.post('/api/llm-model', {
         searchInput: searchInputRecord?.searchInput,
         searchResult: formattedSearchResponse,
