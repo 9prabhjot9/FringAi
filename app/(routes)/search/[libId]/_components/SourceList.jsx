@@ -1,34 +1,36 @@
-import React from 'react';
-import Image from 'next/image';
+import React from 'react'
 
 function SourceList({ searchResult }) {
   return (
-    <div>
+    <div className="flex flex-wrap gap-2">
       {searchResult?.slice(0, 4).map((item, index) => {
-        const sourceImg = item?.src;
+        const faviconUrl = `https://www.google.com/s2/favicons?sz=64&domain_url=${item.link}`;
+
         return (
           <div
             key={index}
             onClick={() => window.open(item.link, '_blank')}
-            className="bg-amber-50 p-3 rounded-lg shadow hover:shadow-md transition cursor-pointer"
+            className="flex items-center gap-2 bg-neutral-100 px-3 py-2 rounded-lg shadow hover:shadow-md transition cursor-pointer line-clamp-4 "
           >
-            {sourceImg && (
-              <div className="mb-2">
-                <Image
-                  src={sourceImg}
-                  width={100}
-                  height={100}
-                  alt={item.displayLink || "source"}
-                  className="rounded"
-                />
-              </div>
-            )}
-            <p className="text-sm leading-snug line-clamp-1">{item.snippet}</p>
+            {/* Favicon */}
+            <img
+              src={faviconUrl}
+              alt={item.displayLink}
+              className="w-4 h-4"
+            />
+
+            {/* Texts */}
+            <div className="flex flex-col">
+              <span className="text-xs text-gray-600">{item.displayLink}</span>
+              <span className="text-sm font-medium line-clamp-1">
+                {item.snippet}
+              </span>
+            </div>
           </div>
         );
       })}
     </div>
-  );
+  )
 }
 
-export default SourceList;
+export default SourceList
