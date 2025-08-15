@@ -1,44 +1,12 @@
 import Image from 'next/image';
 import React from 'react';
+import SourceList from './SourceList';
 
-function AnswerDisplay({ searchResult }) {
+function AnswerDisplay({ chat }) {
   return (
      
     <div className="grid grid-cols-3 gap-4 pt-2 w-max-sm" >
-        
-      {searchResult?.items?.slice(0,4).map((item, index) => {
-    
-        const sourceImg =
-          item?.pagemap?.cse_thumbnail?.[0]?.src ||
-          item?.pagemap?.cse_image?.[0]?.src;
-        
-
-        return (
-          <div
-            key={index}
-            onClick={()=> window.open(item.link, '_blank')}
-            className="bg-amber-50 p-3 rounded-lg shadow hover:shadow-md transition cursor-pointer "
-          >
-            {/* Thumbnail */}
-            {sourceImg && (
-              <div className="mb-2 ">
-                <Image
-                  src={sourceImg}
-                  width={20}
-                  height={20}
-                  alt={item.displayLink}
-                  className="rounded"
-                />
-              </div>
-            )}
-
-            {/* Description */}
-            <p className="text-sm leading-snug line-clamp-1">
-              {item.snippet}
-            </p>
-          </div>
-        );
-      })}
+      <SourceList searchResult={chat} />
     </div>
   );
 }

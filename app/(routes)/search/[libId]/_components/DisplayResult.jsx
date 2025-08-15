@@ -115,8 +115,8 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
 
     return (
         <div className='mt-7'>
-          {searchResult?.Chats?.map((chat,index) => (
-            <div>
+          {searchResult?.Chats?.map((chat, index) => (
+            <div key={index}>
                  <div className="flex items-center space-x-6 border-b border-gray-200 pb-2 mt-6">
     
   {tabs.map(({ label, icon: Icon, badge }) => (
