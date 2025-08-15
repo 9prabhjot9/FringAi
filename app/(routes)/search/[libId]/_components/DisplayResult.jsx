@@ -112,7 +112,6 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
 
 
 
-
     return (
         <div className='mt-7'>
           {searchResult?.Chats?.map((chat, index) => (
@@ -139,10 +138,11 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
   ))}
   <div className="ml-auto text-sm text-gray-500">
     1 task <span className="ml-1">→</span>
+    
   </div>
     </div>
     <div>
-        {activeTab == 'Answer'? <AnswerDisplay searchResult={searchResult}/> : null}
+        {activeTab == 'Answer'? <AnswerDisplay chat={chat}/> : null}
         
      </div>
             </div>

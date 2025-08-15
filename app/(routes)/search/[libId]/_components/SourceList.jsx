@@ -1,44 +1,34 @@
-import React from 'react'
+import React from 'react';
+import Image from 'next/image';
 
-function SourceList({searchResult}) {
+function SourceList({ searchResult }) {
   return (
     <div>
-         
-      {searchResult?.items?.slice(0,4).map((item, index) => {
-    
-        const sourceImg =
-          item?.pagemap?.cse_thumbnail?.[0]?.src ||
-          item?.pagemap?.cse_image?.[0]?.src;
-        
-
+      {searchResult?.slice(0, 4).map((item, index) => {
+        const sourceImg = item?.src;
         return (
           <div
             key={index}
-            onClick={()=> window.open(item.link, '_blank')}
-            className="bg-amber-50 p-3 rounded-lg shadow hover:shadow-md transition cursor-pointer "
+            onClick={() => window.open(item.link, '_blank')}
+            className="bg-amber-50 p-3 rounded-lg shadow hover:shadow-md transition cursor-pointer"
           >
-            {/* Thumbnail */}
             {sourceImg && (
-              <div className="mb-2 ">
+              <div className="mb-2">
                 <Image
                   src={sourceImg}
-                  width={20}
-                  height={20}
-                  alt={item.displayLink}
+                  width={100}
+                  height={100}
+                  alt={item.displayLink || "source"}
                   className="rounded"
                 />
               </div>
             )}
-
-            {/* Description */}
-            <p className="text-sm leading-snug line-clamp-1">
-              {item.snippet}
-            </p>
+            <p className="text-sm leading-snug line-clamp-1">{item.snippet}</p>
           </div>
         );
       })}
     </div>
-  )
+  );
 }
 
-export default SourceList
+export default SourceList;
