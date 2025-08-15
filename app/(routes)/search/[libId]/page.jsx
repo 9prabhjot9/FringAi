@@ -20,7 +20,7 @@ function SearchQueryResult() {
 
         let {data: Library, error} = await supabase
         .from('Library')
-        .select('*')
+        .select('*, Chats(*)')
         .eq('libId', libId)
 
         console.log(Library[0])

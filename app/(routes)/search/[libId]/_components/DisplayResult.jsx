@@ -10,6 +10,7 @@ import { useParams } from 'next/navigation';
 import { supabase } from '@/services/supabase';
 
 
+
 const tabs = [
   { label: 'Answer', icon: LucideSparkles },
   { label: 'Images', icon: LucideImage },
@@ -19,12 +20,14 @@ const tabs = [
 
 function DisplayResult({searchInputRecord}) {
     const [activeTab, setActiveTab] = useState("Answer")
-    const[searchResult, setSearchResult ] = useState(SEARCH_RESULT)
+    const[searchResult, setSearchResult ] = useState(searchInputRecord)
     const {libId} = useParams()
 
     useEffect(() => {   
         
-        GetSearchApiResult()
+        searchInputRecord?.Chats?.length==0 && GetSearchApiResult()
+        setSearchResult(searchInputRecord)
+        console.log(searchInputRecord)
     }, [searchInputRecord])
 
    const GetSearchApiResult = async () => {
@@ -62,6 +65,7 @@ console.log(cleanResults);
     .insert([
         { libId: libId,
           searchResult: cleanResults,
+          userSearchInput: searchInputRecord?.searchInput
         },
     ])
     .select()
@@ -111,9 +115,9 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
 
     return (
         <div className='mt-7'>
-      <h2 className='font-medium text-2xl line-clamp-2'>{searchInputRecord?.searchInput} </h2>
-    
-    <div className="flex items-center space-x-6 border-b border-gray-200 pb-2 mt-6">
+          {searchResult?.Chats?.map((chat,index) => (
+            <div>
+                 <div className="flex items-center space-x-6 border-b border-gray-200 pb-2 mt-6">
     
   {tabs.map(({ label, icon: Icon, badge }) => (
     <button
@@ -141,6 +145,11 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
         {activeTab == 'Answer'? <AnswerDisplay searchResult={searchResult}/> : null}
         
      </div>
+            </div>
+          ))}
+      <h2 className='font-medium text-2xl line-clamp-2'>{searchInputRecord?.searchInput} </h2>
+    
+   
 </div>
 
   )
