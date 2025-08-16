@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useParams } from 'next/navigation';
 import { supabase } from '@/services/supabase';
 import ImageList from './ImageList';
+import SourceListTab from './SourceListTab';
 
 
 
@@ -147,7 +148,7 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
     <div>
         {activeTab == 'Answer'? <AnswerDisplay chat={chat}/> : 
         activeTab== 'Images'?<ImageList chat={chat}/>
-        :null
+        : activeTab == 'Sources' ? <SourceListTab chat={chat} /> : null
       }
         
         
