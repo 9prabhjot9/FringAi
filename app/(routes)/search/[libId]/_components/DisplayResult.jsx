@@ -27,7 +27,7 @@ function DisplayResult({searchInputRecord}) {
 
     useEffect(() => {   
         
-        searchInputRecord?.Chats?.length==0 && GetSearchApiResult()
+        searchInputRecord?.Chats?.length==0 ? GetSearchApiResult(): getSearchRecords()
         setSearchResult(searchInputRecord)
         console.log(searchInputRecord)
     }, [searchInputRecord])
@@ -71,26 +71,16 @@ console.log(cleanResults);
         },
     ])
     .select()
-        //  if (error) {
-        //   console.error("Supabase insert error:", error);
-        //   return; // stop if there's an error
-        // }
+    await getSearchRecords()
+       
 
-        // if (!data || data.length === 0) {
-        //   console.error("No data returned from insert");
-        //   return;
-        // }
 
-console.log("Inserted row ID:", data[0].id);
 await GenerateAIResp(formattedSearchResponse, data[0].id);
-    // setSearchResult({ items: formattedSearchResponse }); // ✅ so AnswerDisplay gets it
-}
+   
+  }
+
   const GenerateAIResp=async(formattedSearchResponse, recordId) => {
-//     console.log("GenerateAIResp payload:", {
-//     searchInput: searchInputRecord?.searchInput,
-//     searchResult: formattedSearchResponse,
-//     recordId
-// });
+
       const result = await axios.post('/api/llm-model', {
         searchInput: searchInputRecord?.searchInput,
         searchResult: formattedSearchResponse,
@@ -106,10 +96,21 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
         })
         if(runResp?.data?.data[0]?.status == "Completed"){
           console.log("Completed!!!")
+          await getSearchRecords()
             clearInterval(interval)
         }
       }, 1000)
       
+  }
+
+  const getSearchRecords=async() => {
+
+            let {data: Library, error} = await supabase
+            .from('Library')
+            .select('*, Chats(*)')
+            .eq('libId', libId)
+
+            setSearchResult(Library[0])
   }
 
 

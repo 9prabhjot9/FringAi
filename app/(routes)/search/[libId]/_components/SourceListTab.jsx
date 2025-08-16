@@ -12,14 +12,14 @@ function SourceListTab({ chat }) {
             onClick={() => window.open(item.link, '_blank')}
             className="flex items-center gap-2 bg-neutral-100 px-3 py-2 rounded-lg shadow hover:shadow-md transition cursor-pointer"
           >
-            {/* Favicon */}
+
             <img
               src={faviconUrl}
               alt={item.displayLink}
               className="w-4 h-4"
             />
 
-            {/* Source text */}
+
             <span className="text-sm text-blue-800 hover:underline">
               {item.displayLink}
             </span>
