@@ -23,10 +23,19 @@ function SearchQueryResult() {
         .select('*, Chats(*)')
         .eq('libId', libId)
 
-        console.log(Library[0])
-        setSearchInputRecord(Library[0])
-    }
+        if (error) {
+    console.error("Supabase error:", error);
+    return;
+  }
 
+  if (Library && Library.length > 0) {
+    console.log(Library[0]);
+    setSearchInputRecord(Library[0]);
+  } else {
+    console.warn("No Library record found for libId:", libId);
+    setSearchInputRecord(null); // safe fallback
+  }
+};
   return (
     <div>
       <Header searchInputRecord={searchInputRecord}/>

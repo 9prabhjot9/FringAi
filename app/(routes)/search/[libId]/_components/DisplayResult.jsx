@@ -5,9 +5,10 @@ import { LucideVideo } from 'lucide-react';
 import { LucideList } from 'lucide-react';
 import AnswerDisplay from './AnswerDisplay';
 import axios from 'axios';
-import { SEARCH_RESULT } from '@/services/Shared';
+
 import { useParams } from 'next/navigation';
 import { supabase } from '@/services/supabase';
+import ImageList from './ImageList';
 
 
 
@@ -31,12 +32,12 @@ function DisplayResult({searchInputRecord}) {
     }, [searchInputRecord])
 
    const GetSearchApiResult = async () => {
-    // const result = await axios.post('/api/google-search-api', {
-    //   searchInput: searchInputRecord?.searchInput,
-    //   searchType: searchInputRecord?.type
-    // })
-    // console.log(result.data)
-    const searchResp = SEARCH_RESULT;
+    const result = await axios.post('/api/google-search-api', {
+      searchInput: searchInputRecord?.searchInput,
+      searchType: searchInputRecord?.type
+    })
+    const searchResp= result?.data
+
 
     // console.log("Full searchResp:", searchResp);
     // console.log("Items array:", searchResp?.items);
@@ -144,7 +145,11 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
   </div>
     </div>
     <div>
-        {activeTab == 'Answer'? <AnswerDisplay chat={chat}/> : null}
+        {activeTab == 'Answer'? <AnswerDisplay chat={chat}/> : 
+        activeTab== 'Images'?<ImageList />
+        :null
+      }
+        
         
      </div>
      <hr className='my-5'/>
