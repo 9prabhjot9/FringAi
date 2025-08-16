@@ -146,7 +146,7 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
     </div>
     <div>
         {activeTab == 'Answer'? <AnswerDisplay chat={chat}/> : 
-        activeTab== 'Images'?<ImageList />
+        activeTab== 'Images'?<ImageList chat={chat}/>
         :null
       }
         
