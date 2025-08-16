@@ -116,7 +116,7 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
         <div className='mt-7'>
           {searchResult?.Chats?.map((chat, index) => (
             <div key={index}>
-               <h2 className='font-medium text-2xl line-clamp-2 pt-4'>{searchInputRecord?.searchInput} </h2>
+               <h2 className='font-medium text-2xl line-clamp-2 pt-4'>{chat?.userSearchInput} </h2>
                  <div className="flex items-center space-x-6 border-b border-gray-200 pb-2 mt-8">
     
   {tabs.map(({ label, icon: Icon, badge }) => (
@@ -147,6 +147,7 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
         {activeTab == 'Answer'? <AnswerDisplay chat={chat}/> : null}
         
      </div>
+     <hr className='my-5'/>
             </div>
           ))}
      
