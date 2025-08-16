@@ -116,6 +116,7 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
         <div className='mt-7'>
           {searchResult?.Chats?.map((chat, index) => (
             <div key={index}>
+               <h2 className='font-medium text-2xl line-clamp-2 pt-4'>{searchInputRecord?.searchInput} </h2>
                  <div className="flex items-center space-x-6 border-b border-gray-200 pb-2 mt-8">
     
   {tabs.map(({ label, icon: Icon, badge }) => (
@@ -124,6 +125,7 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
       onClick={() => setActiveTab(label)}
       className={`flex items-center gap-1 relative text-sm font-medium text-gray-700 hover:text-black ${activeTab === label ? 'text-black' : ''}`}
     >
+      
       <Icon className="w-4 h-4" />
       <span>{label}</span>
       {badge && (
@@ -147,7 +149,7 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
      </div>
             </div>
           ))}
-      <h2 className='font-medium text-2xl line-clamp-2'>{searchInputRecord?.searchInput} </h2>
+     
     
    
 </div>
