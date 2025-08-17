@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { LucideSparkles } from 'lucide-react';
+import { LucideSparkles, Send } from 'lucide-react';
 import { LucideImage } from 'lucide-react';
 import { LucideVideo } from 'lucide-react';
 import { LucideList } from 'lucide-react';
@@ -10,6 +10,9 @@ import { useParams } from 'next/navigation';
 import { supabase } from '@/services/supabase';
 import ImageList from './ImageList';
 import SourceListTab from './SourceListTab';
+import { Button } from '@/components/ui/button';
+
+
 
 
 
@@ -24,6 +27,8 @@ function DisplayResult({searchInputRecord}) {
     const [activeTab, setActiveTab] = useState("Answer")
     const[searchResult, setSearchResult ] = useState(searchInputRecord)
     const {libId} = useParams()
+    const [userInput, setUserInput] = useState()
+
 
     useEffect(() => {   
         
@@ -32,17 +37,13 @@ function DisplayResult({searchInputRecord}) {
         console.log(searchInputRecord)
     }, [searchInputRecord])
 
-   const GetSearchApiResult = async () => {
+   const GetSearchApiResult = async () => { 
+
     const result = await axios.post('/api/google-search-api', {
-      searchInput: searchInputRecord?.searchInput,
-      searchType: searchInputRecord?.type
+      searchInput: userInput??searchInputRecord?.searchInput,
+      searchType: searchInputRecord?.type??'Search'
     })
     const searchResp= result?.data
-
-
-    // console.log("Full searchResp:", searchResp);
-    // console.log("Items array:", searchResp?.items);
-    // console.log("First item:", searchResp?.items?.[0]);
 
     const formattedSearchResponse = searchResp?.items?.map((item) => ({
         title: item?.title ?? null,
@@ -72,7 +73,6 @@ console.log(cleanResults);
     ])
     .select()
     await getSearchRecords()
-       
 
 
 await GenerateAIResp(formattedSearchResponse, data[0].id);
@@ -147,7 +147,7 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
   </div>
     </div>
     <div>
-        {activeTab == 'Answer'? <AnswerDisplay chat={chat}/> : 
+        {activeTab == 'Answer'? <AnswerDisplay chat={chat}  /> : 
         activeTab== 'Images'?<ImageList chat={chat}/>
         : activeTab == 'Sources' ? <SourceListTab chat={chat} /> : null
       }
@@ -157,7 +157,12 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
      <hr className='my-5'/>
             </div>
           ))}
-     
+     <div className='bg-white w-[900px] border rounded-lg shadow-md p-3 px-5 flex justify-between fixed bottom-6'>
+      <input type="text" placeholder='Type anything ' className='outline-none w-full' 
+      onChange={(e)=> setUserInput(e.target.value)}
+      />
+      {userInput && <Button onClick={GetSearchApiResult} ><Send /> </Button> }
+     </div>
     
    
 </div>

@@ -2,12 +2,12 @@ import React from 'react';
 import SourceList from './SourceList';
 import DisplaySummary from './DisplaySummary';
 
-function AnswerDisplay({ chat }) {
+function AnswerDisplay({ chat, loadingSerach }) {
   return (
     <div className="flex flex-col gap-6 pt-2">
     
       <div className="grid grid-cols-3 gap-4">
-        <SourceList searchResult={chat?.searchResult} />
+        <SourceList searchResult={chat?.searchResult}  />
       </div>
 
       

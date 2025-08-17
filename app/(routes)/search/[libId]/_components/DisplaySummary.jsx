@@ -3,10 +3,16 @@ import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { SkeletonCard } from '@/components/Skeleton'
 
 function DisplaySummary({ aiResp }) {
   return (
     <div>
+        {!aiResp && <div>
+            <div> 
+            <SkeletonCard />
+            </div>
+        </div> }
       <Markdown
         remarkPlugins={[remarkGfm]}
         components={{
