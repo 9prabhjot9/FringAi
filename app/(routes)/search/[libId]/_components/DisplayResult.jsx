@@ -147,7 +147,7 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
   </div>
     </div>
     <div>
-        {activeTab == 'Answer'? <AnswerDisplay chat={chat}  /> : 
+        {activeTab == 'Answer'? <AnswerDisplay chat={chat} airesp = {chat.aiesp} /> : 
         activeTab== 'Images'?<ImageList chat={chat}/>
         : activeTab == 'Sources' ? <SourceListTab chat={chat} /> : null
       }

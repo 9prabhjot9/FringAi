@@ -10,7 +10,7 @@ function SourceList({ searchResult, loadingSearch }) {
           <div
             key={index}
             onClick={() => window.open(item.link, '_blank')}
-            className="flex items-center gap-2 bg-neutral-100 px-3 py-2 rounded-lg shadow hover:shadow-md transition cursor-pointer line-clamp-4 "
+            className="flex items-center gap-2 bg-neutral-100 px-3 py-2 rounded-lg shadow hover:shadow-md transition cursor-pointer line-clamp-4"
           >
             {/* Favicon */}
             <img
