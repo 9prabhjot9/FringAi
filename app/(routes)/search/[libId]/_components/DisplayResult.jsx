@@ -72,11 +72,18 @@ console.log(cleanResults);
         },
     ])
     .select()
-    await getSearchRecords()
+    if (error) {
+  console.error("Supabase insert error:", error.message);
+  return;
+}
 
+if (!data || data.length === 0) {
+  console.error("No data returned from insert");
+  return;
+}
 
+await getSearchRecords();
 await GenerateAIResp(formattedSearchResponse, data[0].id);
-   
   }
 
   const GenerateAIResp=async(formattedSearchResponse, recordId) => {
@@ -117,7 +124,7 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
 
     return (
         <div className='mt-7'>
-          {searchResult?.Chats?.slice(-1).map((chat, index) => (
+          {searchResult?.Chats?.map((chat, index) => (
             <div key={index}>
                <h2 className='font-medium text-2xl line-clamp-2 pt-4'>{chat?.userSearchInput} </h2>
                  <div className="flex items-center space-x-6 border-b border-gray-200 pb-2 mt-8">
