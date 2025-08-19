@@ -116,8 +116,8 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
             .from('Library')
             .select('*, Chats(*)')
             .eq('libId', libId)
-
-            setSearchResult(Library[0])
+            // .order('id', { foreignTable: 'Chats', ascending: true})
+            // setSearchResult(Library[0])
   }
 
 
