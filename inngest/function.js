@@ -37,14 +37,18 @@ export const llmModel = inngest.createFunction(
     const saveToDb = await step.run('saveToDb', async() =>{
 
       const { data, error } = await supabase
-        .from('Chats')
-        .update({ aiResp: aiResp?.candidates[0].content.parts[0].text })
-        .eq('id', event.data.recordId)
-        .select()
-          
-     
-      if (error) throw error;
-      return data;
+  .from('Chats')
+  .update({ aiResp: aiResp?.candidates?.[0]?.content?.parts?.[0]?.text })
+  .eq('id', event.data.recordId)
+  .select();
+
+  if (error) throw error;
+  if (!data || data.length === 0) {
+    throw new Error(`No chat found with id ${event.data.recordId}`);
+  }
+
+return data[0]; 
+
     });
 
     return {

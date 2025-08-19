@@ -147,7 +147,7 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
   </div>
     </div>
     <div>
-        {activeTab == 'Answer'? <AnswerDisplay chat={chat} airesp = {chat.aiesp} /> : 
+        {activeTab == 'Answer'? <AnswerDisplay chat={chat} aiResp = {chat.aiResp} /> : 
         activeTab== 'Images'?<ImageList chat={chat}/>
         : activeTab == 'Sources' ? <SourceListTab chat={chat} /> : null
       }
@@ -157,7 +157,7 @@ await GenerateAIResp(formattedSearchResponse, data[0].id);
      <hr className='my-5'/>
             </div>
           ))}
-     <div className='bg-white w-[900px] border rounded-lg shadow-md p-3 px-5 flex justify-between fixed bottom-6'>
+     <div className='bg-white w-[900px] border rounded-lg shadow-md p-3 px-5 flex justify-between fixed bottom-6 lg:max-w-3xl'>
       <input type="text" placeholder='Type anything ' className='outline-none w-full' 
       onChange={(e)=> setUserInput(e.target.value)}
       />

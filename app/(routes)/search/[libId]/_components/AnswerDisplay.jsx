@@ -2,7 +2,7 @@ import React from 'react';
 import SourceList from './SourceList';
 import DisplaySummary from './DisplaySummary';
 
-function AnswerDisplay({ chat, loadingSerach }) {
+function AnswerDisplay({ chat, loadingSearch }) {
   return (
     <div className="flex flex-col gap-6 pt-2">
     
