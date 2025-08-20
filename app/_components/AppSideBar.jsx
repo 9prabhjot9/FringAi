@@ -23,11 +23,6 @@ const items = [
     icon: Home,
   },
   {
-    title: "Discover",
-    url: "/discovery",
-    icon: Compass,
-  },
-  {
     title: "Library",
     url: "/library",
     icon: Library,
