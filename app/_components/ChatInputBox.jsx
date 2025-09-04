@@ -52,7 +52,7 @@ function ChatInputBox() {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center">
+    <div className="h-screen w-full flex flex-col items-center justify-center">
       <Image src="/newlogo.png" alt="logo" width={150} height={100} />
 
       <div className="p-2 w-full max-w-3xl ">

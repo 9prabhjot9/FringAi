@@ -2,7 +2,7 @@ import React from 'react'
 
 function SourceList({ searchResult, loadingSearch }) {
   return (
-    <div className="flex flex-wrap gap-2 grid grid-cols-1 lg:grid-cols-4  md:grid-cols-3 sm:grid-cols-2 lg:w-220 md:w-170 sm:w-130 w-70">
+    <div className="flex flex-wrap w-full gap-2 grid grid-cols-1 lg:grid-cols-4  md:grid-cols-3 sm:grid-cols-2 lg:w-220 md:w-170 sm:w-130 w-70">
       {searchResult?.slice(0, 4).map((item, index) => {
         const faviconUrl = `https://www.google.com/s2/favicons?sz=64&domain_url=${item.link}`;
 

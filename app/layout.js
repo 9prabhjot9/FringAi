@@ -28,14 +28,16 @@ export default function RootLayout({ children }) {
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <SidebarProvider> 
+            <div className="flex h-screen w-screen overflow-hidden">
             <AppSidebar/> 
-              <main>
+              <main className="flex-1 overflow-auto">
                 <SidebarTrigger />
                 <Provider>
 
                 {children}
                 </Provider>
               </main>
+              </div>
           </SidebarProvider>
         </body>
       </html>

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 
 function Header( { searchInputRecord } ) {
   return (
-    <div className='p-4 border-b w-screen flex justify-between items-center'> 
+    <div className='p-4 border-b w-full flex justify-between items-center'> 
         <div className='flex gap-2 items-center'>
             <UserButton />
             <div className='flex gap-1 items-center'>
